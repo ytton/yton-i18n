@@ -1,0 +1,202 @@
+{
+  "name": "yton-i18n",
+  "displayName": "yton-i18n",
+  "description": "VSCode国际化插件，提供硬编码提取和翻译管理功能",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:vue",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact"
+  ],
+  "main": "dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "yton-i18n-view",
+          "title": "I18n",
+          "icon": "resources/i18n-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "yton-i18n-view": [
+        {
+          "icon": "resources/i18n-icon.svg",
+          "id": "currentFile",
+          "name": "当前文件情况"
+        },
+        {
+          "icon": "resources/i18n-icon.svg",
+          "id": "translationProgress",
+          "name": "翻译进度"
+        },
+        {
+          "icon": "resources/i18n-icon.svg",
+          "id": "allTranslations",
+          "name": "所有翻译"
+        },
+        {
+          "icon": "resources/i18n-icon.svg",
+          "id": "translationUsage",
+          "name": "翻译使用情况"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "yton-i18n.extractHardcoded",
+        "title": "将硬编码文本提取为国际化键"
+      },
+      {
+        "command": "yton-i18n.extractSelection",
+        "title": "将选中文本提取为国际化键"
+      },
+      {
+        "command": "yton-i18n.extractWholeSelectionAsKey",
+        "title": "将选中文本整体作为key提取"
+      },
+      {
+        "command": "yton-i18n.editTranslation",
+        "title": "编辑翻译"
+      },
+      {
+        "command": "yton-i18n.viewFileTranslations",
+        "title": "查看当前文件翻译"
+      },
+      {
+        "command": "yton-i18n.deleteUnusedKey",
+        "title": "删除未使用的键"
+      },
+      {
+        "command": "yton-i18n.deleteUnusedKeyFromTree",
+        "title": "删除未使用的键",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "yton-i18n.refreshTranslationUsage",
+        "title": "刷新翻译使用情况",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "yton-i18n.deleteAllUnusedKeys",
+        "title": "删除所有未使用的键",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "yton-i18n.extractHardcoded",
+          "group": "yton-i18n",
+          "when": "editorLangId =~ /vue|javascript|typescript|javascriptreact|typescriptreact/"
+        },
+        {
+          "command": "yton-i18n.extractSelection",
+          "group": "yton-i18n",
+          "when": "editorHasSelection && editorLangId =~ /vue|javascript|typescript|javascriptreact|typescriptreact/"
+        },
+        {
+          "command": "yton-i18n.extractWholeSelectionAsKey",
+          "group": "yton-i18n",
+          "when": "editorHasSelection && editorLangId =~ /vue|javascript|typescript|javascriptreact|typescriptreact/"
+        },
+        {
+          "command": "yton-i18n.viewFileTranslations",
+          "group": "yton-i18n",
+          "when": "editorLangId =~ /vue|javascript|typescript|javascriptreact|typescriptreact/"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "yton-i18n.deleteUnusedKeyFromTree",
+          "when": "view == translationUsage && viewItem == unusedKey",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "yton-i18n.refreshTranslationUsage",
+          "when": "view == translationUsage",
+          "group": "navigation"
+        },
+        {
+          "command": "yton-i18n.deleteAllUnusedKeys",
+          "when": "view == translationUsage",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Yton I18n",
+      "properties": {
+        "yton-i18n.localesDir": {
+          "type": "string",
+          "default": "src/i18n",
+          "description": "本地化文件目录"
+        },
+        "yton-i18n.localeFileRegex": {
+          "type": "string",
+          "default": "(\\w+).json",
+          "description": "国际化文件名正则表达式"
+        },
+        "yton-i18n.htmlAttributes": {
+          "type": "array",
+          "default": ["title", "alt"],
+          "description": "需要国际化的HTML标签属性"
+        },
+        "yton-i18n.hardcodedFileTypes": {
+          "type": "array",
+          "default": ["vue", "js", "ts", "jsx", "tsx", "html", "htm"],
+          "description": "需要检测硬编码文本的文件类型列表"
+        },
+        "yton-i18n.hardcodedAttributes": {
+          "type": "array",
+          "default": ["title", "alt", "content", "description"],
+          "description": "需要检查硬编码文本的HTML属性列表"
+        },
+        "yton-i18n.enableInlineTranslation": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否启用内联翻译预览"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "dev:webview-ui": "cd src/webview-ui && pnpm run dev",
+    "build:webview-ui": "cd src/webview-ui && pnpm run build:prod",
+    "start": "pnpm run dev:webview-ui & pnpm run watch"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.98.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "eslint": "^9.21.0",
+    "typescript": "^5.7.3",
+    "ts-loader": "^9.5.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
