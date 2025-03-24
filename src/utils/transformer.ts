@@ -47,16 +47,15 @@ export class Transformer {
     if (localeFiles.length === 0) {
       throw new Error('未找到翻译文件');
     }
-    
     // 使用第一个语言文件作为默认语言
-    const defaultLocale = localeFiles[0].name;
+    const defaultLocale = Config.getDefaultLocale();
     const defaultLocaleContent = Config.getLocaleFileContent(defaultLocale);
     
     for (const text of hardcodedTexts) {
       // 清理文本内容
       const cleanedText = text.text.trim();
       
-      // 使用原文作为key基础，仅去除英文句点
+      // 使用原文作为key基础
       let key = cleanedText;
       
       // TODO: 如果检测到key有html标签，则替换掉所有的html标签，同时多个空格合并成一个

@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { extractHardcoded, extractHardcodedRange, extractWholeSelectionAsKey, extractHardcodedText, extractSelection } from './commands/extractHardcoded';
+import { extractHardcodedRange, extractWholeSelectionAsKey, extractHardcodedText, extractSelection } from './commands/extractHardcoded';
 import { editTranslation, viewFileTranslations, deleteUnusedKey } from './commands/translationCommands';
 import { refreshAllViews } from './commands/refreshViewsCommand';
 import { CurrentFileViewProvider, goToHardcoded, locateKeyUsage } from './providers/currentFileViewProvider';
@@ -26,7 +26,6 @@ export function activate(context: vscode.ExtensionContext) {
   // 注册命令
   context.subscriptions.push(
     vscode.commands.registerCommand('yton-i18n.editTranslation', editTranslation),
-    vscode.commands.registerCommand('yton-i18n.extractHardcoded', extractHardcoded),
     vscode.commands.registerCommand('yton-i18n.extractSelection', extractSelection),
     vscode.commands.registerCommand('yton-i18n.extractHardcodedRange', extractHardcodedRange),
     vscode.commands.registerCommand('yton-i18n.extractWholeSelectionAsKey', extractWholeSelectionAsKey),

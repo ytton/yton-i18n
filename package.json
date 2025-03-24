@@ -53,10 +53,6 @@
     },
     "commands": [
       {
-        "command": "yton-i18n.extractHardcoded",
-        "title": "将硬编码文本提取为国际化键"
-      },
-      {
         "command": "yton-i18n.extractSelection",
         "title": "将选中文本提取为国际化键"
       },
@@ -94,11 +90,6 @@
     ],
     "menus": {
       "editor/context": [
-        {
-          "command": "yton-i18n.extractHardcoded",
-          "group": "yton-i18n",
-          "when": "editorLangId =~ /vue|javascript|typescript|javascriptreact|typescriptreact/"
-        },
         {
           "command": "yton-i18n.extractSelection",
           "group": "yton-i18n",
@@ -167,6 +158,16 @@
           "type": "boolean",
           "default": false,
           "description": "是否启用内联翻译预览"
+        },
+        "yton-i18n.defaultLocale": {
+          "type": "string",
+          "default": "en",
+          "description": "默认语言"
+        },
+        "yton-i18n.nestedExtract": {
+          "type": "boolean",
+          "default": false,
+          "description": "提取硬编码采用嵌套语法"
         }
       }
     }

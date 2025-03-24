@@ -98,7 +98,6 @@ VSCode 国际化辅助工具，简化提取和管理翻译的过程。
 
 ## 命令
 
-- `yton-i18n.extractHardcoded`: 将硬编码文本提取为国际化键
 - `yton-i18n.extractSelection`: 将选中文本提取为国际化键
 - `yton-i18n.extractWholeSelectionAsKey`: 将选中文本整体作为key提取
 - `yton-i18n.editTranslation`: 编辑翻译内容
